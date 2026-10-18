@@ -1,0 +1,84 @@
+.q-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.q-card.is-new .prompt {
+  animation: rise 280ms var(--ease);
+}
+
+.unit {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.guesses {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guess-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 2px;
+  border-bottom: 1.5px dashed oklch(from var(--ink) l c h / 0.35);
+}
+
+.guess-row.is-latest {
+  animation: rise 260ms var(--ease);
+}
+
+.guess-num {
+  margin-right: auto;
+  font-size: 1.375rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.guess-row .chip {
+  font-size: 0.875rem;
+}
+
+.dir {
+  background: var(--ink);
+  color: var(--surface);
+  border-color: var(--ink);
+}
+
+.guess-form .field {
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.guesses-left {
+  margin-top: -6px;
+  font-size: 0.9375rem;
+  text-align: center;
+}
+
+.reveal {
+  animation: rise 300ms var(--ease);
+}
+
+.answer-big {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: 'INFM' 80, 'BNCE' 30;
+}
+
+.fact {
+  font-weight: 500;
+}
+
+.answer-points {
+  align-self: flex-start;
+  margin-top: 4px;
+}

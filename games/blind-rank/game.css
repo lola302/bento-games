@@ -1,0 +1,161 @@
+.theme {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.pips {
+  gap: 3px;
+}
+
+.pip {
+  width: 15px;
+  height: 15px;
+}
+
+.reveal-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 6px 0;
+  padding: 18px 16px 16px;
+  text-align: center;
+  background: oklch(0.93 calc(var(--gc) * 0.4) var(--gh));
+  border-radius: 2px 2px 18px 2px;
+  box-shadow:
+    0 1px 0 oklch(0.3 0.05 265 / 0.1),
+    6px 12px 18px -12px oklch(0.25 0.05 265 / 0.55);
+  transform: rotate(1deg);
+  animation: card-flip 380ms var(--ease);
+}
+
+@keyframes card-flip {
+  from {
+    opacity: 0;
+    transform: rotateY(70deg) rotate(1deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .reveal-card {
+    background: oklch(0.35 calc(var(--gc) * 0.45) var(--gh));
+  }
+}
+
+.reveal-emoji {
+  font-size: 2.75rem;
+  line-height: 1.1;
+}
+
+.reveal-name {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variation-settings: 'INFM' 75, 'BNCE' 30;
+}
+
+/* the tier board */
+.tiers {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid var(--line);
+  border-radius: var(--wob);
+}
+
+.tier {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  width: 100%;
+  min-height: 52px;
+  padding: 0;
+  border: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+}
+
+.tier + .tier {
+  border-top: 2px solid var(--line);
+}
+
+button.tier {
+  cursor: pointer;
+  transition: background-color 140ms;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  button.tier:hover .tier-items {
+    background: var(--hl);
+  }
+}
+
+button.tier:active .tier-items {
+  background: var(--hl);
+}
+
+button.tier:focus-visible {
+  outline-offset: -4px;
+}
+
+.tier-label {
+  display: grid;
+  place-items: center;
+  border-right: 2px solid var(--line);
+  color: var(--on-game);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.tier-s .tier-label { background: oklch(0.72 0.17 25); }
+.tier-a .tier-label { background: oklch(0.81 0.14 62); }
+.tier-b .tier-label { background: oklch(0.89 0.15 98); }
+.tier-c .tier-label { background: oklch(0.83 0.15 145); }
+.tier-d .tier-label { background: oklch(0.79 0.1 240); }
+.tier-f .tier-label { background: oklch(0.74 0.13 300); }
+
+.tier-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 6px;
+  padding: 7px 8px;
+  transition: background-color 140ms;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 6px;
+  border: 2px solid var(--line);
+  border-radius: var(--wob-pill);
+  background: var(--surface);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.item-emoji {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.item-mark {
+  width: 10px;
+  height: 10px;
+  margin-left: 2px;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+}
+
+.item-mark.is-good { background: var(--good); }
+.item-mark.is-close { background: var(--close); }
+.item-mark.is-bad { background: var(--bad); }
+
+.upcoming {
+  text-align: center;
+  font-size: 0.9375rem;
+}

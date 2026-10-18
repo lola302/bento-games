@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Outbid · Bento Games</title>
+    <meta name="description" content="A 2-player auction game: $20 each, a new theme every day. Bid on every item, then the judge picks the winner." />
+    <meta property="og:title" content="Outbid · Bento Games" />
+    <meta property="og:description" content="A 2-player auction game: $20 each, a new theme every day. Bid on every item, then the judge picks the winner." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍱</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght,BNCE,INFM@0,300..800,-100..100,0..100&family=DM+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="../../engine/engine.css" />
+    <link rel="stylesheet" href="./game.css" />
+    <script type="importmap">{ "imports": { "engine/": "../../engine/" } }</script>
+    <script type="module">
+      import { boot } from 'engine/shell.js';
+      import game from './game.js';
+      boot(game);
+    </script>
+  </head>
+  <body>
+    <noscript>This game needs JavaScript turned on.</noscript>
+  </body>
+</html>

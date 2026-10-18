@@ -1,0 +1,279 @@
+.tries {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.end-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.events {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 8px 2px;
+  border: 2px solid var(--line);
+  border-radius: var(--wob);
+  background: var(--surface);
+  box-shadow: 2px 2px 0 var(--shade);
+  transition: transform 180ms var(--ease), background-color 150ms;
+}
+
+.event:nth-child(even) .snap {
+  transform: rotate(3deg);
+}
+
+.event.is-dragging {
+  z-index: var(--z-raised);
+  background: var(--soft);
+  box-shadow: 4px 10px 0 var(--shade);
+  transition: none;
+}
+
+.event.is-good {
+  background: var(--good);
+  color: var(--on-game);
+}
+
+.event.is-off {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.event.is-off .grip,
+.event.is-good .grip {
+  color: inherit;
+}
+
+.grip {
+  display: grid;
+  place-items: center;
+  height: 52px;
+  color: var(--ink-2);
+  cursor: grab;
+  touch-action: none;
+}
+
+.grip svg {
+  filter: url(#sketch);
+}
+
+.grip:active {
+  cursor: grabbing;
+}
+
+/* polaroid thumbnail */
+.snap {
+  display: block;
+  width: 78px;
+  height: 88px;
+  padding: 5px 5px 13px;
+  background: oklch(0.995 0.003 95);
+  box-shadow: 0 2px 6px -2px oklch(0.2 0.05 265 / 0.45);
+  transform: rotate(-3deg);
+}
+
+.snap img,
+.snap .doodle {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--soft);
+}
+
+.snap .doodle {
+  padding: 4px;
+}
+
+.snap-big {
+  width: 128px;
+  height: 144px;
+  padding: 7px 7px 20px;
+}
+
+@media (max-width: 400px) {
+  .snap {
+    width: 66px;
+    height: 76px;
+  }
+
+  .snap-big {
+    width: 104px;
+    height: 118px;
+  }
+}
+
+.event-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.event-text {
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.event-mark {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.event-moves {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.move {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid currentColor;
+  border-radius: var(--wob-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.move svg {
+  width: 18px;
+  height: 18px;
+}
+
+.move:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .move:hover:not(:disabled) {
+    background: var(--hl);
+  }
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.gallery-item:nth-child(even) .snap {
+  transform: rotate(3deg);
+}
+
+.gallery-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.event-year {
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-variation-settings: 'INFM' 80;
+  background-image: linear-gradient(100deg, transparent 0.15em, var(--hl) 0.35em, var(--hl) calc(100% - 0.25em), transparent);
+  background-repeat: no-repeat;
+  background-size: 100% 0.5em;
+  background-position: 0 88%;
+}
+
+.credit {
+  color: var(--ink-2);
+  font-size: 0.75rem;
+}
+
+/* memes without a photo yet: a little drawn card in the kind's color */
+.snap.is-card {
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  background: oklch(0.93 0.07 var(--kh));
+}
+
+.snap.is-card .doodle {
+  --size: 80%;
+  --dc: oklch(0.8 0.13 var(--kh));
+  width: 80%;
+  height: 80%;
+  padding: 0;
+  background: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .snap.is-card {
+    background: oklch(0.36 0.06 var(--kh));
+  }
+}
+
+.quote {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.gallery-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+}
+
+.kind {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.watch {
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}

@@ -1,0 +1,180 @@
+.theme {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+/* each take is a sticky note */
+.note {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 6px 4px 4px;
+  padding: 22px 20px 26px;
+  background: oklch(0.93 calc(var(--gc) * 0.4) var(--gh));
+  border-radius: 2px 2px 18px 2px;
+  box-shadow:
+    0 1px 0 oklch(0.3 0.05 265 / 0.1),
+    6px 12px 18px -12px oklch(0.25 0.05 265 / 0.55);
+  transform: rotate(-1.2deg);
+}
+
+.note.is-new {
+  animation: note-in 320ms var(--ease);
+}
+
+@keyframes note-in {
+  from {
+    opacity: 0;
+    transform: rotate(-6deg) translateY(10px);
+  }
+}
+
+.note-text {
+  margin: 0;
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.22;
+  font-variation-settings: 'INFM' 75, 'BNCE' 20;
+  text-wrap: balance;
+}
+
+.note-text::before {
+  content: '“';
+}
+
+.note-text::after {
+  content: '”';
+}
+
+@media (prefers-color-scheme: dark) {
+  .note {
+    background: oklch(0.35 calc(var(--gc) * 0.45) var(--gh));
+  }
+}
+
+.vote {
+  font-size: 1.25rem;
+}
+
+.vote-agree,
+.chip-agree {
+  background: var(--good);
+  color: var(--on-game);
+}
+
+.vote-disagree,
+.chip-disagree {
+  background: var(--bad);
+  color: var(--on-game);
+}
+
+.guess-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.guess-q {
+  font-size: 1.1875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.guess-value {
+  display: block;
+  font-size: 3.75rem;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: 'INFM' 80, 'BNCE' 40;
+}
+
+.reveal {
+  animation: rise 300ms var(--ease);
+}
+
+.reveal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reveal-big {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.reveal-pct {
+  font-size: 2.75rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.reveal-points {
+  font-size: 1.125rem;
+}
+
+.meter {
+  position: relative;
+  height: 38px;
+  margin: 28px 0 4px;
+  border: 2px solid var(--line);
+  border-radius: var(--wob-sm);
+  background: var(--panel);
+}
+
+.meter-fill {
+  position: absolute;
+  inset: 3px;
+  border-radius: 6px 3px 7px 3px;
+  background: var(--game);
+  transform-origin: left center;
+  transform: scaleX(var(--to));
+  animation: meter-grow 700ms var(--ease);
+}
+
+@keyframes meter-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.meter-guess {
+  position: absolute;
+  top: -9px;
+  bottom: -9px;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--ink);
+}
+
+.meter-guess span {
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 50%;
+  translate: -50% 0;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.meter-guess.is-left span {
+  left: -2px;
+  translate: 0 0;
+}
+
+.meter-guess.is-right span {
+  left: auto;
+  right: -2px;
+  translate: 0 0;
+}
+
+.reveal-note {
+  font-weight: 600;
+}

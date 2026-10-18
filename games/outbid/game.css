@@ -1,0 +1,516 @@
+/* realistic food photos, stacked like the real thing */
+.ob-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  width: min(calc(100% / var(--widest, 1)), calc(var(--plate-h, 128px) / var(--ratio)));
+  filter: drop-shadow(0 8px 8px oklch(0.25 0.04 60 / 0.22));
+}
+
+.ob-layer {
+  display: block;
+  flex: none;
+  height: auto;
+  object-fit: fill;
+  /* a soft contact shadow so each layer looks pressed onto the one below */
+  filter: drop-shadow(0 1.5px 1.5px oklch(0.2 0.04 50 / 0.4));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* a new layer drops onto the stack and squishes into place */
+.ob-layer.is-new {
+  transform-origin: 50% 100%;
+  animation: layer-drop 560ms var(--ease);
+}
+
+/* the end-of-game reveal: the judge builds the burger layer by layer */
+.ob-layer.is-build {
+  transform-origin: 50% 100%;
+  animation: layer-drop 480ms var(--ease) backwards;
+  animation-delay: calc(var(--i) * 140ms + 250ms);
+}
+
+@keyframes layer-drop {
+  0% {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+  55% {
+    transform: translateY(0) scaleY(0.82);
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* ---------- intro ---------- */
+
+.ob-intro {
+  align-items: stretch;
+}
+
+.ob-intro > .tag {
+  align-self: flex-start;
+}
+
+.ob-title {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.ob-preview {
+  --plate-h: 150px;
+  display: flex;
+  justify-content: center;
+  height: 150px;
+  align-items: flex-end;
+}
+
+.ob-names {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 10px;
+}
+
+.ob-name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ob-names .ob-start {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+}
+
+.ob-rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 500;
+}
+
+/* ---------- arena ---------- */
+
+.ob-arena {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ob-players {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 6px;
+}
+
+.ob-vs {
+  font-weight: 800;
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+.ob-player {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px 8px 6px;
+  border: 2px solid var(--line);
+  border-radius: var(--wob);
+  background: var(--surface);
+  transition: box-shadow 200ms var(--ease), transform 200ms var(--ease);
+}
+
+.ob-player[data-key='b'] {
+  background: var(--soft);
+}
+
+.ob-player.is-turn {
+  box-shadow: 0 0 0 4px var(--hl);
+  transform: rotate(-0.8deg) translateY(-2px);
+}
+
+.ob-name {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ob-money {
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: 'INFM' 80, 'BNCE' 30;
+}
+
+.ob-plate {
+  --plate-h: 150px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 150px;
+}
+
+
+.ob-lead {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  translate: -50% 0;
+  padding: 1px 8px;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  background: var(--game);
+  color: var(--on-game);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.ob-player.is-leader .ob-lead {
+  opacity: 1;
+}
+
+.ob-bubble {
+  position: absolute;
+  top: 72px;
+  right: -6px;
+  z-index: var(--z-raised);
+  padding: 3px 10px;
+  border: 2px solid var(--line);
+  border-radius: 14px 14px 14px 3px;
+  background: var(--k5);
+  color: var(--on-game);
+  font-weight: 800;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  animation: bubble 1400ms var(--ease) forwards;
+  pointer-events: none;
+}
+
+.ob-player[data-key='a'] .ob-bubble {
+  right: auto;
+  left: -6px;
+  border-radius: 14px 14px 3px 14px;
+}
+
+@keyframes bubble {
+  0% { transform: scale(0.6); }
+  12% { transform: scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+/* the auction block */
+.ob-lot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 2px 4px 0;
+  padding: 14px 14px 16px;
+  background: oklch(0.94 calc(var(--gc) * 0.35) var(--gh));
+  border-radius: 2px 2px 18px 2px;
+  box-shadow:
+    0 1px 0 oklch(0.3 0.05 265 / 0.1),
+    6px 12px 18px -12px oklch(0.25 0.05 265 / 0.55);
+  transform: rotate(-0.8deg);
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ob-lot {
+    background: oklch(0.34 calc(var(--gc) * 0.45) var(--gh));
+  }
+}
+
+.ob-lot > .tag {
+  align-self: flex-start;
+}
+
+.ob-lot.is-new {
+  animation: lot-in 420ms var(--ease);
+}
+
+@keyframes lot-in {
+  from {
+    transform: translateX(40px) rotate(4deg);
+    opacity: 0;
+  }
+}
+
+.ob-art-wrap {
+  width: min(220px, 74%);
+  padding: 4px 0;
+}
+
+.ob-art-wrap .ob-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 8px oklch(0.25 0.04 60 / 0.3));
+}
+
+.ob-art.is-gone {
+  transition: transform 500ms var(--ease), opacity 500ms;
+  transform: scale(0.4) rotate(20deg);
+  opacity: 0;
+}
+
+.ob-item-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variation-settings: 'INFM' 80, 'BNCE' 30;
+}
+
+.ob-bid {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ob-turn {
+  min-height: 1.5em;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.ob-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ob-bidbox {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ob-bidbox-label {
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.ob-pick {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: 'INFM' 85, 'BNCE' 40;
+}
+
+.ob-slider {
+  height: 48px;
+}
+
+.ob-slider::-webkit-slider-runnable-track {
+  height: 18px;
+}
+
+.ob-slider::-webkit-slider-thumb {
+  width: 40px;
+  height: 40px;
+  margin-top: -13px;
+}
+
+.ob-slider:disabled {
+  opacity: 0.6;
+}
+
+.ob-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -6px;
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.ob-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.ob-actions .btn {
+  min-height: 54px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ob-broke {
+  padding: 10px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.ob-log {
+  min-height: 1.4em;
+  color: var(--ink-2);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* the item flying from the auction block onto a burger */
+.ob-flying {
+  position: fixed;
+  z-index: var(--z-fx);
+  margin: 0;
+  pointer-events: none;
+  transform-origin: center;
+}
+
+/* ---------- judging ---------- */
+
+.ob-judge-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ob-judge-head .doodle {
+  --size: 58px;
+  transform: rotate(-8deg);
+}
+
+.ob-judge-name {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.ob-finals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ob-final {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 8px;
+  border: 2px solid var(--line);
+  border-radius: var(--wob);
+}
+
+.ob-final.is-winner {
+  background: var(--hl);
+}
+
+.ob-plate-big {
+  --plate-h: 220px;
+  height: 220px;
+}
+
+.ob-final-meta {
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+.ob-winner {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  font-variation-settings: 'INFM' 85, 'BNCE' 40;
+}
+
+.is-fresh .ob-winner,
+.is-fresh .ob-points {
+  animation: pop 420ms var(--ease) backwards;
+  animation-delay: 2s;
+}
+
+.is-fresh .ob-winner {
+  animation-delay: 2.4s;
+}
+
+/* ---------- each player's box of won items ---------- */
+
+.ob-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  min-height: 100px;
+  margin-top: 4px;
+  padding: 8px 6px;
+  border: 2px dashed oklch(from var(--ink) l c h / 0.35);
+  border-radius: var(--wob-sm);
+}
+
+.ob-thumb {
+  width: 46%;
+  max-width: 92px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 3px oklch(0.25 0.04 60 / 0.3));
+}
+
+.ob-thumb.is-new {
+  animation: pop 320ms var(--ease);
+}
+
+.ob-box-empty {
+  align-self: center;
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.ob-included {
+  margin-top: -6px;
+  text-align: center;
+  font-size: 0.9375rem;
+}
+
+.ob-points {
+  font-weight: 700;
+}
+
+.ob-points-num {
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: 'INFM' 85, 'BNCE' 40;
+}
